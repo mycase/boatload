@@ -1,4 +1,6 @@
-require "boatload/version"
+# frozen_string_literal: true
+
+require 'boatload/version'
 
 module Boatload
   class Error < StandardError; end
