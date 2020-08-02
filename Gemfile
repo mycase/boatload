@@ -12,4 +12,6 @@ end
 
 group :test do
   gem 'minitest', '~> 5.0'
+  gem 'mocha', '~> 1.11'
+  gem 'shoulda-context', '~> 2.0'
 end
