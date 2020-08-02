@@ -27,7 +27,7 @@ module Boatload
           begin
             process
           rescue StandardError => e
-            @logger.error "Failed to process backlog during shutdown: #{e.message}"
+            @logger.error "Failed to process backlog during shutdown: #{e.full_message}"
           end
 
           break
