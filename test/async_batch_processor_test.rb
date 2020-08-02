@@ -24,7 +24,7 @@ module Boatload
     context '#push' do
       setup do
         @processed = []
-        @abp = AsyncBatchProcessor.new do |items|
+        @abp = AsyncBatchProcessor.new(logger: create_logger) do |items|
           @processed.concat(items.map { |item| item + 1 })
         end
       end
@@ -49,7 +49,7 @@ module Boatload
     context '#process' do
       setup do
         @queue = Queue.new
-        @abp = AsyncBatchProcessor.new do |items|
+        @abp = AsyncBatchProcessor.new(logger: create_logger) do |items|
           items.each { |item| @queue << item + 1 }
         end
       end
@@ -76,7 +76,7 @@ module Boatload
     context '#shutdown' do
       setup do
         @processed = []
-        @abp = AsyncBatchProcessor.new do |items|
+        @abp = AsyncBatchProcessor.new(logger: create_logger) do |items|
           @processed.concat(items.map { |item| item + 1 })
         end
       end
@@ -100,6 +100,11 @@ module Boatload
         @abp.expects(:ensure_threads_running!)
         @abp.shutdown
       end
+    end
+
+    # Create a dummy logger so we don't pollute the test output
+    def create_logger
+      Logger.new(StringIO.new)
     end
   end
 end

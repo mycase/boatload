@@ -12,18 +12,26 @@ module Boatload
     context '#run' do
       setup do
         @queue = Queue.new
-        @worker = Worker.new(queue: @queue) {}
+        @logger = create_logger
+        @worker = Worker.new(queue: @queue, logger: @logger) {}
+      end
+
+      should 'log an error if an unknown operation is received' do
+        @logger.expects(:error).with(includes('Unknown operation: :fake_operation'))
+        @queue.push [:fake_operation, 42]
+        @worker.run
       end
     end
 
     context '#process' do
       setup do
         @queue = Queue.new
+        @logger = create_logger
       end
 
       should 'call the process block with the items in the backlog' do
         processed = []
-        worker = Worker.new(queue: @queue) do |items|
+        worker = Worker.new(queue: @queue, logger: @logger) do |items|
           processed.concat(items.map { |item| item + 1 })
         end
 
@@ -40,7 +48,7 @@ module Boatload
       end
 
       should 'clear the backlog after completing successfully' do
-        worker = Worker.new(queue: @queue) {}
+        worker = Worker.new(queue: @queue, logger: @logger) {}
 
         assert worker.backlog.empty?
 
@@ -54,7 +62,9 @@ module Boatload
       end
 
       should 'catch any errors raised in the process block' do
-        worker = Worker.new(queue: @queue) do |_items|
+        @logger.expects(:error).with(includes('always fail'))
+
+        worker = Worker.new(queue: @queue, logger: @logger) do |_items|
           raise 'always fail'
         end
 
@@ -62,6 +72,11 @@ module Boatload
         @queue.push [:shutdown, nil]
         worker.run
       end
+    end
+
+    # Create a dummy logger so we don't pollute the test output
+    def create_logger
+      Logger.new(StringIO.new)
     end
   end
 end

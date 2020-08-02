@@ -3,13 +3,16 @@
 module Boatload
   # A worker that will run in the background, batching up and processing messages.
   class Worker
-    def initialize(queue:, &block)
+    def initialize(queue:, logger:, &block)
       @backlog = []
       @incoming_queue = queue
+      @logger = logger
       @process_proc = block
     end
 
     def run
+      @logger.info 'Starting Worker in the background...'
+
       loop do
         operation, payload = @incoming_queue.pop
 
@@ -19,14 +22,19 @@ module Boatload
         when :process
           process
         when :shutdown
-          process
+          begin
+            process
+          rescue StandardError => e
+            @logger.error "Failed to process backlog during shutdown: #{e.message}"
+          end
+
           break
         else
           raise "Unknown operation: #{operation.inspect}"
         end
       end
-    rescue StandardError => _e
-      nil
+    rescue StandardError => e
+      @logger.error "Worker thread encountered an unexpected error:\n#{e.full_message}"
     end
 
     private
@@ -34,8 +42,8 @@ module Boatload
     def process
       @process_proc.call @backlog
       @backlog.clear
-    rescue StandardError => _e
-      nil
+    rescue StandardError => e
+      @logger.error "Error encountered while processing backlog:\n#{e.full_message}"
     end
   end
 end

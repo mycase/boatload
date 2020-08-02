@@ -1,17 +1,20 @@
 # frozen_string_literal: true
 
 require 'boatload/worker'
+require 'logger'
 
 module Boatload
   # A class for asynchronously enqueueing work to be processed in large batches.
   class AsyncBatchProcessor
-    def initialize(&block)
+    def initialize(logger: Logger.new(STDOUT), &block)
       raise ArgumentError, 'You must give a block' unless block_given?
 
       @queue = Queue.new
+      @logger = logger
 
       @worker = Worker.new(
         queue: @queue,
+        logger: @logger,
         &block
       )
 
