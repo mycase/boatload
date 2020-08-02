@@ -1,0 +1,8 @@
+AllCops:
+  NewCops: enable
+
+Metrics/AbcSize:
+  Max: 20
+
+Metrics/MethodLength:
+  Max: 25
