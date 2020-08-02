@@ -3,10 +3,11 @@
 module Boatload
   # A worker that will run in the background, batching up and processing messages.
   class Worker
-    def initialize(queue:, logger:, &block)
+    def initialize(queue:, max_backlog_size: 0, logger:, &block)
       @backlog = []
       @incoming_queue = queue
       @logger = logger
+      @max_backlog_size = max_backlog_size
       @process_proc = block
     end
 
@@ -19,6 +20,7 @@ module Boatload
         case operation
         when :item
           @backlog.push payload
+          process if threshold_reached?
         when :process
           process
         when :shutdown
@@ -44,6 +46,10 @@ module Boatload
       @backlog.clear
     rescue StandardError => e
       @logger.error "Error encountered while processing backlog:\n#{e.full_message}"
+    end
+
+    def threshold_reached?
+      @max_backlog_size.positive? && @backlog.length >= @max_backlog_size
     end
   end
 end
