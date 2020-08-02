@@ -42,7 +42,7 @@ module Boatload
     private
 
     def process
-      @process_proc.call @backlog
+      @process_proc.call @backlog, @logger
       @backlog.clear
     rescue StandardError => e
       @logger.error "Error encountered while processing backlog:\n#{e.full_message}"

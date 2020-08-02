@@ -46,6 +46,18 @@ module Boatload
         assert_equal [2, 3, 4], processed
       end
 
+      should 'be able to use the logger from within the process block' do
+        @logger.expects(:warn).with('testing 123')
+        worker = Worker.new(queue: @queue, logger: @logger) do |_items, logger|
+          logger.warn('testing 123')
+        end
+
+        worker_thread = Thread.new { worker.run }
+
+        @queue.push [:shutdown, nil]
+        worker_thread.join
+      end
+
       should 'clear the backlog after completing successfully' do
         worker = Worker.new(queue: @queue, logger: @logger) {}
 
