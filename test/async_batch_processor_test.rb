@@ -3,8 +3,11 @@
 require 'test_helper'
 
 module Boatload
-  # This method is private but it's useful in these tests
-  AsyncBatchProcessor.send :public, :worker_thread_alive?
+  # These methods are private but they're useful in these tests
+  class AsyncBatchProcessor
+    public :worker_thread_alive?
+    public :timer_thread_alive?
+  end
 
   class AsyncBatchProcessorTest < Minitest::Test
     context '#initialize' do
@@ -20,10 +23,11 @@ module Boatload
         end
       end
 
-      should 'not start worker thread' do
+      should 'not start worker and timer threads' do
         abp = AsyncBatchProcessor.new {}
 
         refute abp.worker_thread_alive?
+        refute abp.timer_thread_alive?
       end
     end
 
@@ -43,12 +47,14 @@ module Boatload
         @abp.push(1, 2, 3)
       end
 
-      should 'start worker thread if it is not alive' do
+      should "start worker and timer threads if they aren't alive" do
         refute @abp.worker_thread_alive?
+        refute @abp.timer_thread_alive?
 
         @abp.push(1)
 
         assert @abp.worker_thread_alive?
+        assert @abp.timer_thread_alive?
       end
 
       should 'automatically process the backlog if max_backlog_size is reached' do
@@ -79,12 +85,14 @@ module Boatload
         assert_equal [2, 3, 4], processed
       end
 
-      should 'start worker thread if it is not alive' do
+      should "start worker and timer threads if they aren't alive" do
         refute @abp.worker_thread_alive?
+        refute @abp.timer_thread_alive?
 
         @abp.process
 
         assert @abp.worker_thread_alive?
+        assert @abp.timer_thread_alive?
       end
     end
 
@@ -107,10 +115,12 @@ module Boatload
         @abp.shutdown
 
         refute @abp.worker_thread_alive?
+        refute @abp.timer_thread_alive?
       end
 
-      should 'start worker thread if it is not alive' do
+      should "start worker and threads if they aren't alive" do
         refute @abp.worker_thread_alive?
+        refute @abp.timer_thread_alive?
 
         @abp.expects(:ensure_threads_running!)
         @abp.shutdown
