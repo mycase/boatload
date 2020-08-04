@@ -34,14 +34,9 @@ module Boatload
           processed.concat(items.map { |item| item + 1 })
         end
 
-        @queue.push [:item, 1]
-        @queue.push [:item, 2]
-        @queue.push [:item, 3]
-
-        worker_thread = Thread.new { worker.run }
-
+        [1, 2, 3].each { |i| @queue.push([:item, i]) }
         @queue.push [:shutdown, nil]
-        worker_thread.join
+        worker.run
 
         assert_equal [2, 3, 4], processed
       end
@@ -52,10 +47,8 @@ module Boatload
           logger.warn('testing 123')
         end
 
-        worker_thread = Thread.new { worker.run }
-
         @queue.push [:shutdown, nil]
-        worker_thread.join
+        worker.run
       end
 
       should 'clear the backlog after completing successfully' do
@@ -64,10 +57,8 @@ module Boatload
         assert worker.backlog.empty?
 
         @queue.push [:item, 1]
-        worker_thread = Thread.new { worker.run }
-
         @queue.push [:shutdown, nil]
-        worker_thread.join
+        worker.run
 
         assert worker.backlog.empty?
       end
