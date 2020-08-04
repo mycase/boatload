@@ -77,7 +77,6 @@ module Boatload
 
         worker = Worker.new(queue: @queue, logger: @logger) { raise 'always fail' }
 
-        @queue.push [:item, 1]
         @queue.push [:shutdown, nil]
         worker.run
       end
