@@ -75,9 +75,7 @@ module Boatload
       should 'catch any errors raised in the process block' do
         @logger.expects(:error).with(includes('always fail'))
 
-        worker = Worker.new(queue: @queue, logger: @logger) do |_items|
-          raise 'always fail'
-        end
+        worker = Worker.new(queue: @queue, logger: @logger) { raise 'always fail' }
 
         @queue.push [:item, 1]
         @queue.push [:shutdown, nil]
