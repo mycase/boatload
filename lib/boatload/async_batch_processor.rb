@@ -7,7 +7,12 @@ require 'logger'
 module Boatload
   # A class for asynchronously enqueueing work to be processed in large batches.
   class AsyncBatchProcessor
-    def initialize(delivery_interval: 0, max_backlog_size: 0, logger: Logger.new(STDOUT), &block)
+    def initialize(
+      delivery_interval: 0,
+      max_backlog_size: 0,
+      logger: Logger.new(STDOUT),
+      &block
+    )
       raise ArgumentError, 'delivery_interval must not be negative' if delivery_interval.negative?
       raise ArgumentError, 'max_backlog_size must not be negative' if max_backlog_size.negative?
       raise ArgumentError, 'You must give a block' unless block_given?
