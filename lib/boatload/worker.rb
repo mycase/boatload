@@ -3,8 +3,9 @@
 module Boatload
   # A worker that will run in the background, batching up and processing messages.
   class Worker
-    def initialize(queue:, max_backlog_size: 0, logger:, &block)
+    def initialize(queue:, max_backlog_size: 0, logger:, context: nil, &block)
       @backlog = []
+      @context = context
       @incoming_queue = queue
       @logger = logger
       @max_backlog_size = max_backlog_size
@@ -42,7 +43,7 @@ module Boatload
     private
 
     def process
-      @process_proc.call @backlog, @logger
+      @process_proc.call @backlog, @logger, @context
       @backlog.clear
     rescue StandardError => e
       @logger.error "Error encountered while processing backlog:\n#{e.full_message}"

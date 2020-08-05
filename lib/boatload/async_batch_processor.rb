@@ -11,6 +11,7 @@ module Boatload
       delivery_interval: 0,
       max_backlog_size: 0,
       logger: Logger.new(STDOUT),
+      context: nil,
       &block
     )
       raise ArgumentError, 'delivery_interval must not be negative' if delivery_interval.negative?
@@ -24,6 +25,7 @@ module Boatload
         queue: @queue,
         max_backlog_size: max_backlog_size,
         logger: @logger,
+        context: context,
         &block
       )
 

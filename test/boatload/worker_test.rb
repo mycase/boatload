@@ -51,6 +51,29 @@ module Boatload
         worker.run
       end
 
+      should 'call the process block with a user defined context' do
+        processed = []
+        context = { batches_processed: 0 }
+
+        worker = Worker.new(
+          queue: @queue,
+          logger: @logger,
+          context: context
+        ) do |items, _logger, ctx|
+          ctx[:batches_processed] += 1
+          processed.concat(items.map { |item| item + 1 })
+        end
+
+        [1, 2, 3].each { |i| @queue.push([:item, i]) }
+        @queue.push [:process, nil]
+        [4, 5, 6].each { |i| @queue.push([:item, i]) }
+        @queue.push [:shutdown, nil]
+        worker.run
+
+        assert_equal [2, 3, 4, 5, 6, 7], processed
+        assert_equal 2, context[:batches_processed]
+      end
+
       should 'clear the backlog after completing successfully' do
         worker = Worker.new(queue: @queue, logger: @logger) {}
 
