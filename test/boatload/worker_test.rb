@@ -86,6 +86,22 @@ module Boatload
         assert worker.backlog.empty?
       end
 
+      should 'not clear the backlog if an error is raised in the process block' do
+        dummy = mock
+        dummy.expects(:call).with([1]).raises
+        dummy.expects(:call).with([1, 2])
+
+        worker = Worker.new(queue: @queue, logger: @logger) do |items|
+          dummy.call(items)
+        end
+
+        @queue.push [:item, 1]
+        @queue.push [:process, nil]
+        @queue.push [:item, 2]
+        @queue.push [:shutdown, nil]
+        worker.run
+      end
+
       should 'catch any errors raised in the process block' do
         @logger.expects(:error).with(includes('always fail'))
 
