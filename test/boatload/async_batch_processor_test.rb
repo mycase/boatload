@@ -32,14 +32,9 @@ module Boatload
     end
 
     context '#push' do
-      setup do
-        @queue = Queue.new
-        @abp = AsyncBatchProcessor.new(max_backlog_size: 5, logger: create_logger) do |items|
-          items.each { |item| @queue << item + 1 }
-        end
-      end
-
       should "start worker and timer threads if they aren't alive" do
+        @abp = AsyncBatchProcessor.new(logger: create_logger) {}
+
         refute @abp.worker_thread_alive?
         refute @abp.timer_thread_alive?
 
@@ -50,10 +45,15 @@ module Boatload
       end
 
       should 'automatically process the backlog if max_backlog_size is reached' do
+        queue = Queue.new
+        @abp = AsyncBatchProcessor.new(max_backlog_size: 5, logger: create_logger) do |items|
+          items.each { |item| queue << item + 1 }
+        end
+
         @abp.push(1, 2, 3, 4, 5)
 
         processed = []
-        5.times { processed << @queue.pop }
+        5.times { processed << queue.pop }
 
         assert_equal [2, 3, 4, 5, 6], processed
       end
