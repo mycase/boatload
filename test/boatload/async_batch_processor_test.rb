@@ -39,14 +39,6 @@ module Boatload
         end
       end
 
-      should 'allow pushing a variadic number of items' do
-        Queue.any_instance.expects(:push).once
-        @abp.push(1)
-
-        Queue.any_instance.expects(:push).times(3)
-        @abp.push(1, 2, 3)
-      end
-
       should "start worker and timer threads if they aren't alive" do
         refute @abp.worker_thread_alive?
         refute @abp.timer_thread_alive?
