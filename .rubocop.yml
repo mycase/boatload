@@ -1,6 +1,9 @@
 AllCops:
   NewCops: enable
 
+Layout/LineLength:
+  Max: 100
+
 Metrics/AbcSize:
   Max: 20
 
