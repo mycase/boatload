@@ -10,6 +10,7 @@ module Boatload
     def initialize(
       delivery_interval: 0,
       max_backlog_size: 0,
+      max_queue_size: 1000,
       logger: Logger.new(STDOUT),
       context: nil,
       &block
@@ -20,6 +21,7 @@ module Boatload
 
       @queue = Queue.new
       @logger = logger
+      @max_queue_size = max_queue_size
 
       @worker = Worker.new(
         queue: @queue,
@@ -42,7 +44,14 @@ module Boatload
     def push(*items)
       ensure_threads_running!
 
-      items.each { |item| @queue.push([:item, item]) }
+      items.each do |item|
+        if @queue.size >= @max_queue_size
+          raise QueueOverflow, "Max queue size (#{@max_queue_size} messages) reached"
+        end
+
+        @queue.push([:item, item])
+      end
+
       nil
     end
 

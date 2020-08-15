@@ -57,6 +57,15 @@ module Boatload
 
         assert_equal [2, 3, 4, 5, 6], processed
       end
+
+      should 'raise a QueueOverflow error if the queue reaches max_queue_size' do
+        @abp = AsyncBatchProcessor.new(max_queue_size: 1, logger: create_logger) { sleep 1 }
+
+        @abp.push 1
+        @abp.process
+
+        assert_raises(QueueOverflow) { @abp.push 1 }
+      end
     end
 
     context '#process' do
