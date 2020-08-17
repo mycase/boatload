@@ -23,6 +23,12 @@ module Boatload
         end
       end
 
+      should 'raise if max_queue_size is not positive' do
+        assert_raises ArgumentError do
+          AsyncBatchProcessor.new(max_queue_size: 0) {}
+        end
+      end
+
       should 'not start worker and timer threads' do
         abp = AsyncBatchProcessor.new {}
 

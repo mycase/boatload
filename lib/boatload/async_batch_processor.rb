@@ -31,6 +31,7 @@ module Boatload
     )
       raise ArgumentError, 'delivery_interval must not be negative' if delivery_interval.negative?
       raise ArgumentError, 'max_backlog_size must not be negative' if max_backlog_size.negative?
+      raise ArgumentError, 'max_queue_size must be positive' unless max_queue_size.positive?
       raise ArgumentError, 'You must give a block' unless block_given?
 
       @queue = Queue.new
