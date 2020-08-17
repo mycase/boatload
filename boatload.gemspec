@@ -15,6 +15,7 @@ Gem::Specification.new do |spec|
 
   spec.metadata['homepage_uri'] = spec.homepage
   spec.metadata['source_code_uri'] = 'https://github.com/mycase/boatload'
+  spec.metadata['documentation_uri'] = "https://www.rubydoc.info/gems/boatload/#{spec.version}"
   # spec.metadata["changelog_uri"] = 'https://github.com/mycase/boatload/blob/master/CHANGELOG.md'
 
   # Specify which files should be added to the gem when it is released.
