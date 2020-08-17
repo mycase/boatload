@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Boatload
-  # A timer that will periodically tell the Worker to process messages.
+  # A timer that will periodically tell the Worker to process items.
   class Timer
     def initialize(queue:, delivery_interval:, logger:)
       @logger = logger

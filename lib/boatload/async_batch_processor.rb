@@ -13,7 +13,7 @@ module Boatload
     #   automatic batch processes.
     # @param max_backlog_size [Integer] if greater than zero, the number of backlog items that will
     #   automatically trigger a batch process.
-    # @param max_queue_size [Integer] the maximum number of messages in the Queue before a
+    # @param max_queue_size [Integer] the maximum number of items in the Queue before a
     #   QueueOverflow will be raised.
     # @param logger [Logger] a Logger that will be passed to the process Proc.
     # @param context [Object] additional context that will be passed to the process Proc.
@@ -66,7 +66,7 @@ module Boatload
 
       items.each do |item|
         if @queue.size >= @max_queue_size
-          raise QueueOverflow, "Max queue size (#{@max_queue_size} messages) reached"
+          raise QueueOverflow, "Max queue size (#{@max_queue_size} items) reached"
         end
 
         @queue.push([:item, item])
