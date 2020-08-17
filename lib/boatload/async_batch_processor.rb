@@ -57,7 +57,7 @@ module Boatload
 
     # Adds an item to the backlog.
     #
-    # @param items [*Object] the item to add to the backlog.
+    # @param items [*Object] the item(s) to add to the backlog.
     # @raise [QueueOverflow] if the queue is full.
     # @return [nil]
     def push(*items)
