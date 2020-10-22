@@ -33,7 +33,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'mocha', '~> 1.11'
   spec.add_development_dependency 'pry'
   spec.add_development_dependency 'rake', '~> 12.0'
-  spec.add_development_dependency 'rubocop', '~> 0.89.0'
+  spec.add_development_dependency 'rubocop', '~> 0.90.0'
   spec.add_development_dependency 'shoulda-context', '~> 2.0'
   spec.add_development_dependency 'yard'
 end
