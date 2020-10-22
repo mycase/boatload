@@ -13,8 +13,6 @@ Gem::Specification.new do |spec|
   spec.homepage      = 'https://github.com/mycase/boatload'
   spec.required_ruby_version = Gem::Requirement.new('>= 2.5.0')
 
-  # spec.metadata["allowed_push_host"] = "TODO: AppFolio gem server?"
-
   spec.metadata['homepage_uri'] = spec.homepage
   spec.metadata['source_code_uri'] = 'https://github.com/mycase/boatload'
   # spec.metadata["changelog_uri"] = 'https://github.com/mycase/boatload/blob/master/CHANGELOG.md'
