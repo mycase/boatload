@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
   spec.summary       = 'A library for processing batches of work asynchronously'
   spec.description   = spec.summary
   spec.homepage      = 'https://github.com/appfolio/boatload'
-  spec.required_ruby_version = Gem::Requirement.new('>= 2.3.0')
+  spec.required_ruby_version = Gem::Requirement.new('>= 2.5.0')
 
   # spec.metadata["allowed_push_host"] = "TODO: AppFolio gem server?"
 
@@ -33,7 +33,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'mocha', '~> 1.11'
   spec.add_development_dependency 'pry'
   spec.add_development_dependency 'rake', '~> 12.0'
-  spec.add_development_dependency 'rubocop', '~> 0.88.0'
+  spec.add_development_dependency 'rubocop', '~> 1.0'
   spec.add_development_dependency 'shoulda-context', '~> 2.0'
   spec.add_development_dependency 'yard'
 end

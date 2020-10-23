@@ -25,7 +25,7 @@ module Boatload
       delivery_interval: 0,
       max_backlog_size: 0,
       max_queue_size: 1000,
-      logger: Logger.new(STDOUT),
+      logger: Logger.new($stdout),
       context: nil,
       &block
     )

@@ -3,7 +3,7 @@
 module Boatload
   # A worker that will run in the background, batching up and processing messages.
   class Worker
-    def initialize(queue:, max_backlog_size: 0, logger:, context: nil, &block)
+    def initialize(queue:, logger:, max_backlog_size: 0, context: nil, &block)
       @backlog = []
       @context = context
       @incoming_queue = queue
