@@ -14,5 +14,8 @@ require 'boatload'
 
 require 'logger'
 require 'minitest/autorun'
+require 'minitest/reporters'
 require 'mocha/minitest'
 require 'shoulda-context'
+
+Minitest::Reporters.use! Minitest::Reporters::DefaultReporter.new
