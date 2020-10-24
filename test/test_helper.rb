@@ -5,7 +5,10 @@ require 'boatload'
 
 require 'logger'
 require 'minitest/autorun'
+require 'minitest/reporters'
 require 'mocha/minitest'
 require 'shoulda-context'
 
 require 'minitest/ci' if ENV['CI']
+
+Minitest::Reporters.use! Minitest::Reporters::DefaultReporter.new
