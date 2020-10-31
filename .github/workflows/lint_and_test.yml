@@ -9,7 +9,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: ruby/setup-ruby@v1
-      - run: bundle install --jobs 4 --retry 3
+        with:
+          bundler-cache: true
       - run: bin/lint
 
   test:
@@ -19,5 +20,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: ruby/setup-ruby@v1
-      - run: bundle install --jobs 4 --retry 3
+        with:
+          bundler-cache: true
       - run: bin/test
