@@ -23,3 +23,5 @@ jobs:
         with:
           bundler-cache: true
       - run: bin/test
+        env:
+          TESTOPTS: --verbose
