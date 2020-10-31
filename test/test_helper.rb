@@ -4,6 +4,8 @@ if ENV['MEASURE_COVERAGE']
   require 'simplecov'
   SimpleCov.start do
     enable_coverage :branch
+    # TODO: minimum_coverage line: 100, branch: 100
+    minimum_coverage line: 99, branch: 91
   end
 end
 
