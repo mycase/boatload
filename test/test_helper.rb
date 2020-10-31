@@ -7,5 +7,3 @@ require 'logger'
 require 'minitest/autorun'
 require 'mocha/minitest'
 require 'shoulda-context'
-
-require 'minitest/ci' if ENV['CI']
