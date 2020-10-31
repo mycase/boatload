@@ -2,7 +2,9 @@
 
 if ENV['MEASURE_COVERAGE']
   require 'simplecov'
-  SimpleCov.start
+  SimpleCov.start do
+    enable_coverage :branch
+  end
 end
 
 $LOAD_PATH.unshift File.expand_path('../lib', __dir__)
