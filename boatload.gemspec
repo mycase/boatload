@@ -32,5 +32,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rake', '~> 12.0'
   spec.add_development_dependency 'rubocop', '~> 1.1.0'
   spec.add_development_dependency 'shoulda-context', '~> 2.0'
+  spec.add_development_dependency 'simplecov', '~> 0.19.0'
   spec.add_development_dependency 'yard'
 end
