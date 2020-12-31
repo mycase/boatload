@@ -4,6 +4,7 @@ AllCops:
 
 require:
   - rubocop-minitest
+  - rubocop-rake
 
 Layout/LineLength:
   Max: 100
