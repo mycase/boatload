@@ -31,6 +31,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'pry'
   spec.add_development_dependency 'rake', '~> 12.0'
   spec.add_development_dependency 'rubocop', '~> 1.7.0'
+  spec.add_development_dependency 'rubocop-minitest', '~> 0.10.2'
   spec.add_development_dependency 'shoulda-context', '~> 2.0'
   spec.add_development_dependency 'simplecov', '~> 0.19.0'
   spec.add_development_dependency 'yard'
