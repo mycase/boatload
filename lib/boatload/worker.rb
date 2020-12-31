@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Boatload
-  # A worker that will run in the background, batching up and processing messages.
+  # A worker that will run in the background, batching up and processing items.
   class Worker
     def initialize(queue:, logger:, max_backlog_size: 0, context: nil, &block)
       @backlog = []

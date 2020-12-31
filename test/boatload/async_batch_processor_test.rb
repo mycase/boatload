@@ -134,6 +134,8 @@ module Boatload
       end
     end
 
+    private
+
     # Create a dummy logger so we don't pollute the test output
     def create_logger
       Logger.new(StringIO.new)

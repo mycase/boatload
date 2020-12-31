@@ -2,6 +2,10 @@ AllCops:
   NewCops: enable
   TargetRubyVersion: 2.5
 
+require:
+  - rubocop-minitest
+  - rubocop-rake
+
 Layout/LineLength:
   Max: 100
 

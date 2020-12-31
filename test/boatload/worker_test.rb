@@ -77,13 +77,13 @@ module Boatload
       should 'clear the backlog after completing successfully' do
         worker = Worker.new(queue: @queue, logger: @logger) {}
 
-        assert worker.backlog.empty?
+        assert_empty worker.backlog
 
         @queue.push [:item, 1]
         @queue.push [:shutdown, nil]
         worker.run
 
-        assert worker.backlog.empty?
+        assert_empty worker.backlog
       end
 
       should 'not clear the backlog if an error is raised in the process block' do
@@ -111,6 +111,8 @@ module Boatload
         worker.run
       end
     end
+
+    private
 
     # Create a dummy logger so we don't pollute the test output
     def create_logger
